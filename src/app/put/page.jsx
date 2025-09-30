@@ -12,7 +12,7 @@ export default function Update() {
     const buscarComentario = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get(`http://jsonplaceholder.typicode.com/comments/${commentId}`);
+            const { data } = await axios.get(`https://jsonplaceholder.typicode.com/comments/${commentId}`);
             setForm({ name: data.name, email: data.email, body: data.body });
         } catch (error) {
             setError(true);
@@ -21,19 +21,19 @@ export default function Update() {
         }
     };
 
-    const editarComnetario = async () => {
+    const editarComentario = async () => {
+        setLoading(true);
         try {
-            await axios.put(`http://jsonplaceholder.typicode.com/comments/${commentId}`, form);
+            await axios.put(`https://jsonplaceholder.typicode.com/comments/${commentId}`, form);
             setSuccess(true);
         } catch (error) {
             setError(true);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
-    
-return (
+    return (
         <div>
             <h1>Editar Comentário</h1>
             <div>
@@ -54,24 +54,30 @@ return (
                         type="text"
                         value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder="Digite o seu nome"
+                        placeholder="Digite o seu Nome"
                     />
+                    <br />
                     <input
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        placeholder="Digite o seu email"
+                        placeholder="Digite o seu Email"
                     />
+                    <br />
                     <textarea
                         value={form.body}
                         onChange={(e) => setForm({ ...form, body: e.target.value })}
                         placeholder="Digite o seu Comentário"
                     />
+                    <br />
                     <button onClick={editarComentario} disabled={loading}>
                         {loading ? "Carregando..." : "Salvar"}
                     </button>
                 </div>
             )}
+
+            {error && <p style={{ color: "red" }}>Ocorreu um erro. Tente novamente.</p>}
+            {success && <p style={{ color: "green" }}>Comentário atualizado com sucesso!</p>}
         </div>
     );
 }
